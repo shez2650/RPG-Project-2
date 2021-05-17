@@ -1,0 +1,7 @@
+1) More flexable map loading system
+    - Seperate file to keep it neat
+    - Created class for map (useful for multiple maps)
+        - counts how many tiles in each row and column and multiplies by 
+          TILESIZE to give total map width and height
+2) camera / scrolling map
+    - limited scrolling to map size
