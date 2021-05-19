@@ -1,0 +1,4 @@
+- Added player image to the player sprite
+- created an "img" file to hold all mt images and used the OS module to figure its directory
+- Improved movement
+    - Started using vectors (useful for finding angles of things/ trig)

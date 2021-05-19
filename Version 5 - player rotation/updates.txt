@@ -1,0 +1,7 @@
+- Added free rotation to the player (caused a few issues - explained below with solutions)
+    - changed it so that when 'd' or 'right arrow' is pressed it rotates clockwise and anit-clockwise for 'a' and 'left arrow'
+    - player rotated around the top left corner so rotation was wonky and camera tracked it weirdly
+        - made it rotate around centre and also applied rotation to the player image/graphic
+        - applied camera to centre of rect
+    - player rect kept changing in size which affected wall collions
+        - added a seperate rect for player hit box and created own function for collision since Sprite class could not use seperate rect
