@@ -5,6 +5,24 @@ from settings import *
 from sprites import *
 from tilemap import *
 
+# HUD functions
+def draw_player_health(surf, x, y, percent):
+    if percent < 0:
+        percent = 0
+    BAR_WIDTH = 100
+    BAR_HEIGHT = 20
+    fill = percent * BAR_WIDTH
+    outline_rect = pygame.Rect(x, y, BAR_WIDTH, BAR_HEIGHT)
+    fill_rect = pygame.Rect(x, y, fill, BAR_HEIGHT)
+    if percent < 60:
+        col = GREEN
+    elif percent < 30:
+        col = YELLOW
+    else:
+        col = RED
+    pygame.draw.rect(surf, col, fill_rect)
+    pygame.draw.rect(surf, WHITE, outline_rect, 2)
+
 class Game():
     def __init__(self):
         # Initialize game window, etc
@@ -63,10 +81,24 @@ class Game():
         # Game Loop - update
         self.all_sprites.update()
         self.camera.update(self.player)
+        # mobs hit player
+        hits = pygame.sprite.spritecollide(self.player, self.mobs, False, collide_hit_box)
+        for hit in hits:
+            now = pygame.time.get_ticks()
+            if now - hit.last_hit > MOB_ATTACK_SPEED:
+                hit.last_hit = now
+                self.player.health -= MOB_DAMAGE
+                hit.vel = Vector2(0, 0)
+            if self.player.health <= 0:
+                self.playing = False
+        if hits:
+            self.player.pos += Vector2(MOB_KNOCKBACK, 0).rotate(-hits[0].rot)
+        
         # bullets hit mobs
         hits = pygame.sprite.groupcollide(self.mobs, self.bullets, False, True)
         for hit in hits:
-            hit.kill()
+            hit.health -= BULLET_DAMAGE
+            hit.vel = Vector2(0, 0)
     
     def draw_grid(self):
         for x in range(0, WIDTH, TILESIZE):
@@ -83,8 +115,12 @@ class Game():
         self.screen.fill(BGCOLOUR)
         #self.draw_grid()
         for sprite in self.all_sprites:
+            if isinstance(sprite, Mob):
+                sprite.draw_health()
             self.screen.blit(sprite.image, self.camera.apply(sprite))
         #pygame.draw.rect(self.screen, WHITE, self.player.hit_box, 2)
+        # HUD functions
+        draw_player_health(self.screen, 10, 10, self.player.health / PLAYER_HEALTH)
         pygame.display.flip()
     
     def events(self):
@@ -94,7 +130,7 @@ class Game():
                 self.quit()
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
-                    pygame.quit()
+                    self.playing = False
     
     def show_start_screen(self):
         # Game start screen

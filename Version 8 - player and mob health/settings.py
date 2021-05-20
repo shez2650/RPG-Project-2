@@ -35,6 +35,7 @@ PLAYER_IMG = "manBlue_gun.png"
 BULLET_IMG = "bullet.png"
 
 # Player settings
+PLAYER_HEALTH = 100
 PLAYER_SPEED = 300
 PLAYER_ROT_SPEED = 250
 PLAYER_HIT_BOX = pygame.Rect(0, 0, 35, 35)
@@ -45,8 +46,13 @@ BULLET_LIFETIME = 1000
 FIRE_RATE = 150
 KICK_BACK = 200
 BULLET_SPREAD = 5
+BULLET_DAMAGE = 10
 
 # Mob settings
 MOB_IMG = "zoimbie1_hold.png"
 MOB_SPEED = 150
-MOB_HIT_BOX = pygame.Rect(0, 0, 30, 30) 
+MOB_HIT_BOX = pygame.Rect(0, 0, 30, 30)
+MOB_HEALTH = 100
+MOB_DAMAGE = 10
+MOB_ATTACK_SPEED = 500
+MOB_KNOCKBACK = 10

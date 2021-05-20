@@ -1,0 +1,9 @@
+- Added health to the mobs
+- Bullet has a damage setting
+- Health bar shows up when under 100%
+- Gave player health so that the game can end
+- Player has health bar that is always visable
+- Made mobs do damage when collide with player and at a certain rate
+- Player gets pushed back when the mob collides
+    - walls did not collide with player since player was not moving so I updated the function to use rect distance of the player and the walls instead
+- When the player's health is less than or equal to 0, then the game resets

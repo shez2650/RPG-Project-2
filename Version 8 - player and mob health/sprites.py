@@ -10,18 +10,18 @@ def collide_with_walls(sprite, group, dir):
         if dir == "x":
             hits = pygame.sprite.spritecollide(sprite, group, False, collide_hit_box)
             if hits:
-                if sprite.vel.x > 0:
+                if hits[0].rect.centerx > sprite.hit_box.centerx:
                     sprite.pos.x = hits[0].rect.left - sprite.hit_box.width / 2
-                if sprite.vel.x < 0:
+                if hits[0].rect.centerx < sprite.hit_box.centerx:
                     sprite.pos.x = hits[0].rect.right + sprite.hit_box.width / 2
                 sprite.vel.x = 0
                 sprite.hit_box.centerx = sprite.pos.x
         if dir == "y":
             hits = pygame.sprite.spritecollide(sprite, group, False, collide_hit_box)
             if hits:
-                if sprite.vel.y > 0:
+                if hits[0].rect.centery > sprite.hit_box.centery:
                     sprite.pos.y = hits[0].rect.top - sprite.hit_box.height / 2
-                if sprite.vel.y < 0:
+                if hits[0].rect.centery < sprite.hit_box.centery:
                     sprite.pos.y = hits[0].rect.bottom + sprite.hit_box.width / 2
                 sprite.vel.y = 0
                 sprite.hit_box.centery = sprite.pos.y
@@ -40,6 +40,7 @@ class Player(pygame.sprite.Sprite):
         self.pos = Vector2(x, y) * TILESIZE
         self.rot = 0
         self.last_shot = 0
+        self.health = PLAYER_HEALTH
             
     def get_keys(self):
         self.rot_speed = 0
@@ -89,6 +90,8 @@ class Mob(pygame.sprite.Sprite):
         self.acc = Vector2(0, 0) # Acceleration
         self.rect.center = self.pos
         self.rot = 0
+        self.health = MOB_HEALTH
+        self.last_hit = 0
         
     def update(self):
         self.rot = (self.game.player.pos - self.pos).angle_to((Vector2(1, 0)))
@@ -104,7 +107,21 @@ class Mob(pygame.sprite.Sprite):
         self.hit_box.centery = self.pos.y
         collide_with_walls(self, self.game.walls, "y")
         self.rect.center = self.hit_box.center
+        if self.health <= 0:
+            self.kill()
     
+    def draw_health(self):
+        if self.health / MOB_HEALTH * 100 > 60:
+            col = GREEN
+        elif self.health / MOB_HEALTH * 100 > 30:
+            col = YELLOW
+        else:
+            col = RED
+        width = int(self.rect.width * self.health / MOB_HEALTH)
+        self.health_bar = pygame.Rect(0, 0, width, 7)
+        if self.health < MOB_HEALTH:
+            pygame.draw.rect(self.image, col, self.health_bar)
+        
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, game, pos, dir):
         self.groups = game.all_sprites, game.bullets
