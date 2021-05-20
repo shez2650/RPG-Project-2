@@ -3,3 +3,5 @@
 - Created a mob class
     - Gave it an image and made it so that whenever there is an 'M' in the map, a mob will spawn there
 - Added rotation to the mob so that it points at the player all the time
+- Added movement to the mobs using equation of motion s = ut + 1/2​at^2 which calcualtes the displacement with positive acceleration and adds it
+    to the mob's position since I am using vectors. This is basically implementaion of physics

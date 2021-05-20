@@ -2,7 +2,6 @@ import pygame, sys, random
 from os import path
 from pygame.locals import *
 from settings import *
-from sprites import *
 
 def collide_hit_box(one, two):
     return one.hit_box.colliderect(two.rect)
