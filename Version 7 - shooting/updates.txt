@@ -1,0 +1,9 @@
+- Set caption to be frame-rate to monitor performance
+- Set a wall image for now to make it look nice
+- Created a mob class
+    - Gave it an image and made it so that whenever there is an 'M' in the map, a mob will spawn there
+- Added rotation to the mob so that it points at the player all the time
+- Since I am using vectors I added movement to the mobs using equation of motion s = ut + 1/2​at^2 which calcualtes the displacement with positive acceleration and adds it
+    to the mob's position. This is basically implementaion of physics
+- Made the wall collisions function seperate to the player class so that other things can use it. 
+- Added wall collisions for the mobs
