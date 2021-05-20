@@ -1,9 +1,10 @@
-import pygame, sys, random, os
+import pygame
 from pygame.locals import *
 from pygame.math import Vector2
 from tilemap import collide_hit_box
 from settings import *
 from sprites import *
+from random import uniform
 
 def collide_with_walls(sprite, group, dir):
         if dir == "x":
@@ -38,6 +39,7 @@ class Player(pygame.sprite.Sprite):
         self.vel = Vector2(0, 0)
         self.pos = Vector2(x, y) * TILESIZE
         self.rot = 0
+        self.last_shot = 0
             
     def get_keys(self):
         self.rot_speed = 0
@@ -51,6 +53,14 @@ class Player(pygame.sprite.Sprite):
             self.vel = Vector2(PLAYER_SPEED, 0).rotate(-self.rot)
         if keys[K_s] or keys[K_DOWN]:
             self.vel = Vector2(-PLAYER_SPEED / 2, 0).rotate(-self.rot)
+        if keys[K_SPACE]:
+            now = pygame.time.get_ticks()
+            if now - self.last_shot > FIRE_RATE:
+                self.last_shot = now
+                dir = Vector2(1, 0).rotate(-self.rot)
+                pos = self.pos + BARREL_OFFSET.rotate(-self.rot)
+                Bullet(self.game, pos, dir)
+                self.vel = Vector2(-KICK_BACK, 0).rotate(-self.rot)
     
     def update(self):
         self.get_keys()
@@ -94,8 +104,28 @@ class Mob(pygame.sprite.Sprite):
         self.hit_box.centery = self.pos.y
         collide_with_walls(self, self.game.walls, "y")
         self.rect.center = self.hit_box.center
+    
+class Bullet(pygame.sprite.Sprite):
+    def __init__(self, game, pos, dir):
+        self.groups = game.all_sprites, game.bullets
+        pygame.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = game.bullet_img
+        self.rect = self.image.get_rect()
+        self.pos = Vector2(pos)
+        self.rect.center = pos
+        spread = uniform(-BULLET_SPREAD, BULLET_SPREAD)
+        self.vel = dir.rotate(spread) * BULLET_SPEED * self.game.dt
+        self.spawn_time = pygame.time.get_ticks()
         
-        
+    def update(self):
+        self.pos += self.vel
+        self.rect.center = self.pos
+        if pygame.sprite.spritecollideany(self, self.game.walls):
+            self.kill()
+        if pygame.time.get_ticks() - self.spawn_time > BULLET_LIFETIME:
+            self.kill()
+
 class Wall(pygame.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites, game.walls

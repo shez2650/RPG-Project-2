@@ -1,4 +1,7 @@
 import pygame, os
+from pygame.math import Vector2
+
+# All time-related things are in milliseconds eg. "BULLET_LIFETIME"
 
 # Colours
 WHITE = (255, 255, 255)
@@ -29,11 +32,19 @@ map_folder = os.path.join(game_folder, "maps")
 # Images
 WALL_IMG = "tileGreen_39.png"
 PLAYER_IMG = "manBlue_gun.png"
+BULLET_IMG = "bullet.png"
 
 # Player settings
 PLAYER_SPEED = 300
 PLAYER_ROT_SPEED = 250
 PLAYER_HIT_BOX = pygame.Rect(0, 0, 35, 35)
+BARREL_OFFSET = Vector2(30, 10)
+# Gun settings
+BULLET_SPEED = 500
+BULLET_LIFETIME = 1000
+FIRE_RATE = 150
+KICK_BACK = 200
+BULLET_SPREAD = 5
 
 # Mob settings
 MOB_IMG = "zoimbie1_hold.png"
