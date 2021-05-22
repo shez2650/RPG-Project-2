@@ -31,7 +31,8 @@ class Player(pygame.sprite.Sprite):
         # Diagonal movement
         if self.vx != 0 and self.vy != 0:
             # Divide by sqr of 2 so diagonal is not faster (Pythagoras Theorem)
-            self.vel /= 1.414
+            self.vx /= 1.414
+            self.vy /= 1.414
         
     
     def collide_with_walls(self, dir):
