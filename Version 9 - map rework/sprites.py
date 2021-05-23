@@ -108,7 +108,10 @@ class Mob(pygame.sprite.Sprite):
         collide_with_walls(self, self.game.walls, "y")
         self.rect.center = self.hit_box.center
         if self.health <= 0:
-            self.game.player.health += 20
+            if self.game.player.health + 20 > PLAYER_HEALTH:
+                self.game.player.health = PLAYER_HEALTH
+            else:
+                self.game.player.health += 20
             self.kill()
     
     def draw_health(self):
