@@ -13,6 +13,7 @@ RED = (255, 0 ,0)
 YELLOW = (255, 255, 0)
 BLUE = (0 ,0 ,255)
 BROWN = (106, 55, 5)
+CYAN = (0, 255, 255)
 
 # Game settings
 TITLE = "My Game"

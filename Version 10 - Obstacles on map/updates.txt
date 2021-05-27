@@ -1,7 +1,6 @@
-- Created a new map using program called tiled. (In the game_folder)
-- Created a new class for it called TileMap, i left the old one in case i needed it again
-    - Used pytmx module to load the tmx file and blit it onto the screen
-    - Made it flexible so that any size of map can be used
+- Added collisions with the new map system
+    - used an object layer on the map and renamed some to "Wall" to show where all the collisions need to be
+      and added player and mon locations on the map too 
 
-- Gave player and mobs a temp spawn position because map does not have spawn position
-- (will take out after) made it so that the player gains health after killing a mob
+- Created new class called "Obstacle" that does not require image for all the collisions
+- Added a debug mode so when I press the "H" key it will draw a cyan rectangle around all the sprite and object's hitboxes

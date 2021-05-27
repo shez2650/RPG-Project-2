@@ -31,6 +31,7 @@ class Game():
         pygame.display.set_caption(TITLE)
         pygame.key.set_repeat(300, 75)
         self.running = True
+        self.draw_debug = False
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         self.clock = pygame.time.Clock()
         self.load_data()
@@ -61,9 +62,13 @@ class Game():
         #             self.player = Player(self, x, y)
         #         if tile == "M":
         #             Mob(self, x, y)
-        self.player = Player(self, 5, 5)
-        Mob(self, 6, 6)
-        Mob(self, 8, 6)
+        for tile_object in self.map.tmxdata.objects:
+            if tile_object.name == "Player":
+                self.player = Player(self, tile_object.x, tile_object.y)
+            if tile_object.name == "Mob":
+                Mob(self, tile_object.x, tile_object.y)
+            if tile_object.name == "Wall":
+                Obstacle(self, tile_object.x, tile_object.y, tile_object.width, tile_object.height)
         self.camera = Camera(self.map.width, self.map.height)
         
         g.run()
@@ -123,6 +128,11 @@ class Game():
             if isinstance(sprite, Mob):
                 sprite.draw_health()
             self.screen.blit(sprite.image, self.camera.apply_sprite(sprite))
+            if self.draw_debug:
+                pygame.draw.rect(self.screen, CYAN, self.camera.apply_rect(sprite.hit_box), 1)
+        if self.draw_debug:
+            for wall in self.walls:
+                pygame.draw.rect(self.screen, CYAN, self.camera.apply_rect(wall.hit_box), 1)
         #pygame.draw.rect(self.screen, WHITE, self.player.hit_box, 2)
         # HUD functions
         draw_player_health(self.screen, 10, 10, self.player.health / PLAYER_HEALTH)
@@ -136,6 +146,8 @@ class Game():
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
                     self.playing = False
+                if event.key == K_h:
+                    self.draw_debug = not self.draw_debug
     
     def show_start_screen(self):
         # Game start screen
