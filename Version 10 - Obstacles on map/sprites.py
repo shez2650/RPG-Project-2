@@ -3,7 +3,6 @@ from pygame.locals import *
 from pygame.math import Vector2
 from tilemap import collide_hit_box
 from settings import *
-from sprites import *
 from random import uniform
 
 def collide_with_walls(sprite, group, dir):
