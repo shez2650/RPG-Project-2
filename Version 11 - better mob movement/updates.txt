@@ -1,6 +1,12 @@
-- Added collisions with the new map system
-    - used an object layer on the map and renamed some to "Wall" to show where all the collisions need to be
-      and added player and mon locations on the map too 
+- Fixed a bug regarding player spawn position (took some time)
+    - When we added a wall to the top corner of the map, it affected the player spawn position
+      This is because the in the __init__ of the player sprite, the player rect was at (0, 0) which then
+      messed with the collisions. This problem was also with the mobs.
 
-- Created new class called "Obstacle" that does not require image for all the collisions
-- Added a debug mode so when I press the "H" key it will draw a cyan rectangle around all the sprite and object's hitboxes
+- Made it so that the mobs try to avoid each other but stil chase the player which makes them not clump up
+- Mobs now move if they are within a certain radius of the player
+    - can be adjusted in the settings
+    - takes the distance between the player and the mob and if it's smaller than the radius then it will update 
+      its movement
+- Mobs also chase the player if other mobs in a "AWARENESS_RADIUS" are chasing the player too
+- Created a list of different speeds that are randomly assigned to the mobs

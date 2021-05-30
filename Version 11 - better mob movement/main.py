@@ -9,14 +9,14 @@ from tilemap import *
 def draw_player_health(surf, x, y, percent):
     if percent < 0:
         percent = 0
-    BAR_WIDTH = 100
-    BAR_HEIGHT = 20
+    BAR_WIDTH = 150
+    BAR_HEIGHT = 30
     fill = percent * BAR_WIDTH
     outline_rect = pygame.Rect(x, y, BAR_WIDTH, BAR_HEIGHT)
     fill_rect = pygame.Rect(x, y, fill, BAR_HEIGHT)
-    if percent < 60:
+    if percent > 0.6:
         col = GREEN
-    elif percent < 30:
+    elif percent > 0.3:
         col = YELLOW
     else:
         col = RED
@@ -53,15 +53,7 @@ class Game():
         self.mobs = pygame.sprite.Group()
         self.bullets = pygame.sprite.Group()
         
-        # load the map
-        # for y, tiles in enumerate(self.map.data):
-        #     for x, tile in enumerate(tiles):
-        #         if tile == "1":
-        #             Wall(self, x, y)
-        #         if tile == "P":
-        #             self.player = Player(self, x, y)
-        #         if tile == "M":
-        #             Mob(self, x, y)
+        # load map
         for tile_object in self.map.tmxdata.objects:
             if tile_object.name == "Player":
                 self.player = Player(self, tile_object.x, tile_object.y)

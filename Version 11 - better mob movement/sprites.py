@@ -3,7 +3,7 @@ from pygame.locals import *
 from pygame.math import Vector2
 from tilemap import collide_hit_box
 from settings import *
-from random import uniform
+from random import uniform, choice
 
 def sine_based_animation(n):
     return -0.5 * (math.cos(math.pi * n) - 1)
@@ -36,6 +36,7 @@ class Player(pygame.sprite.Sprite):
         self.game = game
         self.image = game.player_img
         self.rect = self.image.get_rect()
+        self.rect.center = (x, y)
         self.hit_box = PLAYER_HIT_BOX
         self.hit_box.center = self.rect.center
         self.vel = Vector2(0, 0)
@@ -94,16 +95,35 @@ class Mob(pygame.sprite.Sprite):
         self.rot = 0
         self.health = MOB_HEALTH
         self.last_hit = 0
+        self.speed = choice(MOB_SPEEDS)
+        self.chasing = False
+        
+    def avoid_mobs(self):
+        for mob in self.game.mobs:
+            if mob != self:
+                dist = self.pos - mob.pos
+                if 0 < dist.length() < AVOID_RADIUS:
+                    self.acc += dist.normalize()
         
     def update(self):
-        self.rot = (self.game.player.pos - self.pos).angle_to((Vector2(1, 0)))
+        dist = (self.game.player.pos - self.pos).length()
+        
+        if dist < CHASE_RADIUS:
+            self.chasing = True
+        elif self.chasing == False:
+            for mob in self.game.mobs:
+                if mob != self and (mob.pos - self.pos).length() < AWARENESS_RADIUS and mob.chasing == True:
+                    self.chasing = True
+                    break
+        else:
+            self.chasing = False
+            
+        if self.chasing:
+            self.move()
+        
         self.image = pygame.transform.rotate(self.game.mob_img, self.rot)
         self.rect = self.image.get_rect()
         self.rect.center = self.pos
-        self.acc = Vector2(MOB_SPEED, 0).rotate(-self.rot)
-        self.acc += self.vel * -1
-        self.vel += self.acc * self.game.dt
-        self.pos += self.vel * self.game.dt + 0.5 * self.acc * self.game.dt ** 2
         self.hit_box.centerx = self.pos.x
         collide_with_walls(self, self.game.walls, "x")
         self.hit_box.centery = self.pos.y
@@ -115,6 +135,15 @@ class Mob(pygame.sprite.Sprite):
             else:
                 self.game.player.health += 20
             self.kill()
+    
+    def move(self):
+        self.rot = (self.game.player.pos - self.pos).angle_to((Vector2(1, 0)))
+        self.acc = Vector2(1, 0).rotate(-self.rot)
+        self.avoid_mobs()
+        self.acc.scale_to_length(self.speed)
+        self.acc += self.vel * -1
+        self.vel += self.acc * self.game.dt
+        self.pos += self.vel * self.game.dt + 0.5 * self.acc * self.game.dt ** 2
     
     def draw_health(self):
         if self.health / MOB_HEALTH * 100 > 60:
