@@ -1,4 +1,4 @@
-import pygame, sys, random, pytmx
+import pygame, pytmx
 from pygame.surfarray import pixels_alpha
 from os import path
 from pygame.locals import *

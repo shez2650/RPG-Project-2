@@ -1,9 +1,12 @@
-import pygame
+import pygame, math
 from pygame.locals import *
 from pygame.math import Vector2
 from tilemap import collide_hit_box
 from settings import *
 from random import uniform
+
+def sine_based_animation(n):
+    return -0.5 * (math.cos(math.pi * n) - 1)
 
 def collide_with_walls(sprite, group, dir):
         if dir == "x":
