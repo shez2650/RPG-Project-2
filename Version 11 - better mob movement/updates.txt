@@ -1,0 +1,6 @@
+- Added collisions with the new map system
+    - used an object layer on the map and renamed some to "Wall" to show where all the collisions need to be
+      and added player and mon locations on the map too 
+
+- Created new class called "Obstacle" that does not require image for all the collisions
+- Added a debug mode so when I press the "H" key it will draw a cyan rectangle around all the sprite and object's hitboxes
