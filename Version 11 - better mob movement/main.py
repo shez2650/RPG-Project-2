@@ -122,9 +122,21 @@ class Game():
             self.screen.blit(sprite.image, self.camera.apply_sprite(sprite))
             if self.draw_debug:
                 pygame.draw.rect(self.screen, CYAN, self.camera.apply_rect(sprite.hit_box), 1)
+
+        # debug
         if self.draw_debug:
+            # draw_hitboxes
             for wall in self.walls:
                 pygame.draw.rect(self.screen, CYAN, self.camera.apply_rect(wall.hit_box), 1)
+            
+            # draw coordinates
+            font = pygame.font.SysFont(None, 16)
+            x = font.render(f"x: {round(self.player.pos.x, 2)}", True, BLACK)
+            y = font.render(f"y: {round(self.player.pos.y, 2)}", True, BLACK)
+            
+            pygame.Surface.blit(self.screen, x, (10, 35 + x.get_height()))
+            pygame.Surface.blit(self.screen, y, (10, 40 + x.get_height() + y.get_height()))
+            
         #pygame.draw.rect(self.screen, WHITE, self.player.hit_box, 2)
         # HUD functions
         draw_player_health(self.screen, 10, 10, self.player.health / PLAYER_HEALTH)
