@@ -45,6 +45,7 @@ class Player(pygame.sprite.Sprite):
         self.rot = -90
         self.last_shot = 0
         self.health = PLAYER_HEALTH
+        self.dead = False
             
     def get_keys(self):
         self.rot_speed = 0

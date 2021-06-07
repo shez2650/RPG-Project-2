@@ -27,18 +27,20 @@ BGCOLOUR = BROWN
 #----------------------------------------------------
 # Assets
 game_folder = os.path.dirname(__file__)
-print(game_folder)
 img_folder = os.path.join(game_folder, "img")
+music_folder = os.path.join(game_folder, "music")
 map_folder = os.path.join(game_folder, "maps")
 # Images
 WALL_IMG = "tileGreen_39.png"
 PLAYER_IMG = "manBlue_gun.png"
 MOB_IMG = "zoimbie1_hold.png"
 BULLET_IMG = "bullet.png"
+TITLE_FONT = os.path.join(img_folder, "ZOMBIE.TTF")
+HUD_FONT = os.path.join(img_folder, "Impacted2.0.ttf")
 MUZZLE_FLASHES = [os.path.join(game_folder, img) for img in os.scandir("img\White puff")]
 #----------------------------------------------------
 # Player settings
-PLAYER_HEALTH = 100
+PLAYER_HEALTH = 1
 PLAYER_SPEED = 250
 PLAYER_ROT_SPEED = 250
 PLAYER_HIT_BOX = pygame.Rect(0, 0, 35, 35)
@@ -49,7 +51,7 @@ BULLET_LIFETIME = 750
 FIRE_RATE = 150
 KICK_BACK = 200
 BULLET_SPREAD = 5
-BULLET_DAMAGE = 10
+BULLET_DAMAGE = 100
 # Vfx
 FLASH_DURATION = 40
 FLASH_SIZES = (20, 60)
