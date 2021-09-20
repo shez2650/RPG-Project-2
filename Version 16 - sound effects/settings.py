@@ -28,7 +28,9 @@ BGCOLOUR = BROWN
 # Assets
 game_folder = os.path.dirname(__file__)
 img_folder = os.path.join(game_folder, "img")
-music_folder = os.path.join(game_folder, "music")
+sounds_folder = os.path.join(game_folder, "Sounds")
+sfx_folder = os.path.join(sounds_folder, "sfx")
+music_folder = os.path.join(sounds_folder, "music")
 map_folder = os.path.join(game_folder, "maps")
 # Images
 WALL_IMG = "tileGreen_39.png"
@@ -37,7 +39,7 @@ MOB_IMG = "zoimbie1_hold.png"
 BULLET_IMG = "bullet.png"
 TITLE_FONT = os.path.join(img_folder, "ZOMBIE.TTF")
 HUD_FONT = os.path.join(img_folder, "Impacted2.0.ttf")
-MUZZLE_FLASHES = [os.path.join(game_folder, img) for img in os.scandir("img\White puff")]
+MUZZLE_FLASHES = [os.path.join(game_folder, img) for img in os.scandir(img_folder + "\White puff")]
 ITEM_IMAGES = {"health":"health_pack.png"}
 #----------------------------------------------------
 # Player settings
@@ -78,3 +80,15 @@ EFFECTS_LAYER = 4
 #----------------------------------------------------
 #Items
 HEALTH_PACK_AMOUNT = 20
+BOB_RANGE = 15
+BOB_SPEED = 0.25
+#----------------------------------------------------
+#Sounds
+BG_MUSIC = "main_game.wav"
+PLAYER_HIT_SOUNDS = [os.path.join(sounds_folder, snd) for snd in os.scandir(sounds_folder + "\pain")]
+ZOMBIE_MOAN_SOUNDS = [os.path.join(sounds_folder, snd) for snd in os.scandir(sounds_folder + "\zmb-moan")]
+ZOMBIE_HIT_SOUNDS = [os.path.join(sounds_folder, snd) for snd in os.scandir(sounds_folder + "\zmb-hit")]
+WEAPON_SOUNDS_GUN = [os.path.join(sounds_folder, snd) for snd in os.scandir(sounds_folder + "\weapon")]
+EFFECTS_SOUNDS_FILE_LIST = [f for f in os.listdir(sounds_folder + "\sfx")]
+EFFECTS_SOUNDS_FILE_NO_EXT = [".".join(f.split(".")[:-1]) for f in EFFECTS_SOUNDS_FILE_LIST]
+EFFECTS_SOUNDS = dict(zip(EFFECTS_SOUNDS_FILE_NO_EXT, EFFECTS_SOUNDS_FILE_LIST))

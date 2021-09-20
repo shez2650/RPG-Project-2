@@ -73,10 +73,15 @@ class Game():
         self.wall_img = pygame.transform.scale(self.wall_img, (TILESIZE, TILESIZE))
         self.gun_flashes = [pygame.image.load(dir).convert_alpha() for dir in MUZZLE_FLASHES]
         self.item_images = {k:pygame.image.load(path.join(img_folder, i)) for (k,i) in ITEM_IMAGES.items()}
-        pygame.mixer.music.load(music_folder + "\main_game.wav")
+        
+        # Sounds
+        pygame.mixer.music.load(os.path.join(music_folder, BG_MUSIC))
+        self.effects_sounds = {k:pygame.mixer.Sound(path.join(sfx_folder, v)) for (k,v) in EFFECTS_SOUNDS.items()}
+        
     
     def new(self):
         # start a new game
+        self.effects_sounds["level_start"].play()
         pygame.mixer.music.play(-1)
         self.all_sprites = pygame.sprite.LayeredUpdates()
         self.walls = pygame.sprite.Group()
@@ -102,6 +107,7 @@ class Game():
             if tile_object.name in ["health"]:
                 Item(self, obj_center, tile_object.name)
         self.camera = Camera(self.map.width, self.map.height)
+        
     
     def run(self):
         # Game Loop

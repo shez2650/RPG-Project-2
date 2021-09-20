@@ -28,7 +28,8 @@ BGCOLOUR = BROWN
 # Assets
 game_folder = os.path.dirname(__file__)
 img_folder = os.path.join(game_folder, "img")
-music_folder = os.path.join(game_folder, "music")
+sounds_folder = os.path.join(game_folder, "Sounds")
+music_folder = os.path.join(sounds_folder, "music")
 map_folder = os.path.join(game_folder, "maps")
 # Images
 WALL_IMG = "tileGreen_39.png"
@@ -78,3 +79,7 @@ EFFECTS_LAYER = 4
 #----------------------------------------------------
 #Items
 HEALTH_PACK_AMOUNT = 20
+BOB_RANGE = 15
+BOB_SPEED = 0.25
+#----------------------------------------------------
+#Sounds

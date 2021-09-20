@@ -1,5 +1,6 @@
 - Added items class to the game
   - Allows for all different types of items to be made with one class
+  - Added animation to it using the pytweening library
 
 - Made a dictionary of items with the type of the item and the image directory in the settings file
   - It is then loaded into the game with in the "load_data" procedure in the main.py file
